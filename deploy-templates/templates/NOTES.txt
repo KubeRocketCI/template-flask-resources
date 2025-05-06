@@ -1,0 +1,1 @@
+1. Application flask-resources has been successfully deployed!!
