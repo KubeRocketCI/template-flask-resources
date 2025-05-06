@@ -1,5 +1,7 @@
 """Example of flask main file."""
+
 from flask import Flask
+
 app = Flask(__name__)
 
 
@@ -7,6 +9,12 @@ app = Flask(__name__)
 def hello_world():
     """Returns Hello, EDP!"""
     return 'Hello, EDP!'
+
+
+@app.route('/cpu')
+def heavy_calc():
+    """Performs a CPU-intensive calculation."""
+    return str(sum(i * i for i in range(10**7)))
 
 
 if __name__ == '__main__':

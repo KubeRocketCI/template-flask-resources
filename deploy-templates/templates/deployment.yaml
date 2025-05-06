@@ -50,6 +50,23 @@ spec:
           volumeMounts:
             {{- toYaml . | nindent 12 }}
           {{- end }}
+        - name: curl-runner
+          image: curlimages/curl:8.4.0
+          command: ["/bin/sh", "-c"]
+          args:
+            - |
+              while true; do
+                i=0
+                while [ $i -lt ${REPEAT_COUNT:-3} ]; do
+                  echo "[curl-runner] Sending request #$((i+1))"
+                  curl -s http://localhost:{{ .Values.service.port }}/cpu > /dev/null
+                  sleep 8
+                  i=$((i+1))
+                done
+              done
+          env:
+            - name: REPEAT_COUNT
+              value: "1"
       {{- with .Values.volumes }}
       volumes:
         {{- toYaml . | nindent 8 }}
